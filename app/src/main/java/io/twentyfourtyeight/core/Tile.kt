@@ -1,4 +1,4 @@
-package com.example.twentyfourtyeight.core
+package io.twentyfourtyeight.core
 
 class Tile(private val position: Position) {
     private var value: Int = 0

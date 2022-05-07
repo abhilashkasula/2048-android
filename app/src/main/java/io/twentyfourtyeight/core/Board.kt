@@ -1,4 +1,4 @@
-package com.example.twentyfourtyeight.core
+package io.twentyfourtyeight.core
 
 import kotlin.random.Random
 

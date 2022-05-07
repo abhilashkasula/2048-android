@@ -1,4 +1,4 @@
-package com.example.twentyfourtyeight.core
+package io.twentyfourtyeight.core
 
 class Game(private val gameListener: GameListener) {
     private val board: Board = Board()

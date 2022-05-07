@@ -1,4 +1,4 @@
-package com.example.twentyfourtyeight.core
+package io.twentyfourtyeight.core
 
 interface GameListener {
     fun onTileMoved(from: Tile, to: Tile)

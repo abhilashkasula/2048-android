@@ -1,10 +1,7 @@
-package com.example.twentyfourtyeight
+package io.twentyfourtyeight
 
-import android.animation.ObjectAnimator
-import android.graphics.Path
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.transition.Visibility
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
@@ -14,11 +11,12 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import com.example.twentyfourtyeight.core.Game
-import com.example.twentyfourtyeight.core.Tile
+import io.twentyfourtyeight.core.Game
+import io.twentyfourtyeight.core.Tile
 import androidx.core.view.GestureDetectorCompat
-import com.example.twentyfourtyeight.core.GameListener
-import com.example.twentyfourtyeight.core.Position
+import com.example.twentyfourtyeight.R
+import io.twentyfourtyeight.core.GameListener
+import io.twentyfourtyeight.core.Position
 
 
 class MainActivity : AppCompatActivity(), GameListener {

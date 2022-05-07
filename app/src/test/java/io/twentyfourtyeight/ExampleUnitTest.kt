@@ -1,4 +1,4 @@
-package com.example.twentyfourtyeight
+package io.twentyfourtyeight
 
 import org.junit.Test
 

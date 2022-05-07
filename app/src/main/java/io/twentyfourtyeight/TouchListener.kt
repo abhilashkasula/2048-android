@@ -1,4 +1,4 @@
-package com.example.twentyfourtyeight
+package io.twentyfourtyeight
 
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent

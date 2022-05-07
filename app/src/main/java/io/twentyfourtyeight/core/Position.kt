@@ -1,4 +1,4 @@
-package com.example.twentyfourtyeight.core
+package io.twentyfourtyeight.core
 
 class Position(var x: Int, var y: Int) {
     override fun equals(other: Any?): Boolean {
