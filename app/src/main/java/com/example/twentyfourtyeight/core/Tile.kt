@@ -1,8 +1,8 @@
 package com.example.twentyfourtyeight.core
 
-class Tile(val position: Position) {
-    var value: Int = 0
-    var isMerged: Boolean = false
+class Tile(private val position: Position) {
+    private var value: Int = 0
+    private var isMerged: Boolean = false
 
     fun hasEqualValue(currentTile: Tile): Boolean {
         return value == currentTile.value
@@ -18,10 +18,6 @@ class Tile(val position: Position) {
 
     fun hasValue(value: Int): Boolean {
         return this.value == value
-    }
-
-    fun getPreviousPosition(delta: Position.Delta): Position {
-        return position.decrementBy(delta)
     }
 
     fun mergeFrom(currentTile: Tile) {
@@ -46,5 +42,17 @@ class Tile(val position: Position) {
 
     fun resetMergeStatus() {
         isMerged = false
+    }
+
+    fun getStringifiedValue(): String {
+        return if (hasValue(0)) "" else value.toString()
+    }
+
+    fun isMerged(): Boolean {
+        return isMerged
+    }
+
+    fun getPosition(): Position {
+        return Position(position.x, position.y)
     }
 }

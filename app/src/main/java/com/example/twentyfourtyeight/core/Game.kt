@@ -1,12 +1,11 @@
 package com.example.twentyfourtyeight.core
 
-class Game(private val onMoved: (Tile) -> Unit) {
-    private var board: Board = Board()
+class Game(private val onTileChange: (Tile) -> Unit) {
+    private val board: Board = Board()
 
     init {
-        onMoved(addTile(Position(0, 0),4))
-        onMoved(addTile(Position(1, 0),2))
-        onMoved(addTile(Position(2, 0),2))
+        onTileChange(board.addRandomTile())
+        onTileChange(board.addRandomTile())
     }
 
     fun moveLeft() {
@@ -43,16 +42,12 @@ class Game(private val onMoved: (Tile) -> Unit) {
             // quit
         }
         if (isMoved) {
-            onMoved(board.addRandomTile())
+            onTileChange(board.addRandomTile())
         }
     }
 
     private fun isGameOver(): Boolean {
         return !board.isAnyTileAvailable()
-    }
-
-    private fun addTile(position: Position, value: Int): Tile {
-        return board.addTile(position, value)
     }
 
     private fun move(delta: Position.Delta, traversals: Map<String, List<Int>>): Boolean {
@@ -70,17 +65,16 @@ class Game(private val onMoved: (Tile) -> Unit) {
                     continue
                 }
 
-
-                if (nextTileToMovablePosition != null && nextTileToMovablePosition.hasEqualValue(currentTile) && !nextTileToMovablePosition.isMerged) {
+                if (nextTileToMovablePosition != null && nextTileToMovablePosition.hasEqualValue(currentTile) && !nextTileToMovablePosition.isMerged()) {
                     isMoved = mergeTiles(currentTile, nextTileToMovablePosition) || isMoved
-                    onMoved(nextTileToMovablePosition)
-                    onMoved(currentTile)
+                    onTileChange(nextTileToMovablePosition)
+                    onTileChange(currentTile)
                 } else {
                     val movableTile = board.getTile(movablePosition)
                     movableTile?.let {
                         isMoved = moveTile(currentTile, it) || isMoved
-                        onMoved(currentTile)
-                        onMoved(it)
+                        onTileChange(currentTile)
+                        onTileChange(it)
                     }
                 }
             }
