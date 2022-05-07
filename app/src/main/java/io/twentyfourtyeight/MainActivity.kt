@@ -14,7 +14,6 @@ import androidx.cardview.widget.CardView
 import io.twentyfourtyeight.core.Game
 import io.twentyfourtyeight.core.Tile
 import androidx.core.view.GestureDetectorCompat
-import com.example.twentyfourtyeight.R
 import io.twentyfourtyeight.core.GameListener
 import io.twentyfourtyeight.core.Position
 
