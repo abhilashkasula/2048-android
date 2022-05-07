@@ -67,7 +67,7 @@ class Game(private val onTileAdd: (Tile) -> Unit, private val onTileMoved: (Tile
 
                 if (nextTileToMovablePosition != null && nextTileToMovablePosition.hasEqualValue(currentTile) && !nextTileToMovablePosition.isMerged()) {
                     isMoved = mergeTiles(currentTile, nextTileToMovablePosition) || isMoved
-                    onTileMoved(currentTile, nextTileToMovablePosition)
+                    onTilesMerged(currentTile, nextTileToMovablePosition)
                 } else {
                     val movableTile = board.getTile(movablePosition)
                     movableTile?.let {

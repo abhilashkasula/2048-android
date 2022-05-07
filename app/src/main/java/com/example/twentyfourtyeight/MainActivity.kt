@@ -29,7 +29,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onTilesMerged(from: Tile, to: Tile) {
-        TODO("Not yet implemented")
+        changeTileUI(from, null)
+        changeTileUI(to, AnimationUtils.loadAnimation(this, R.anim.merge))
     }
 
     private fun changeTileUI(tile: Tile, animation: Animation?) {
