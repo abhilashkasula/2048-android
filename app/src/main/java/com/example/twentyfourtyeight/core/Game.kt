@@ -1,11 +1,11 @@
 package com.example.twentyfourtyeight.core
 
-class Game(private val onTileAdd: (Tile) -> Unit, private val onTileMoved: (Tile, Tile) -> Unit, private val onTilesMerged: (Tile, Tile) -> Unit) {
+class Game(private val gameListener: GameListener) {
     private val board: Board = Board()
 
     init {
-        onTileAdd(board.addRandomTile())
-        onTileAdd(board.addRandomTile())
+        gameListener.onTileAdded(board.addRandomTile())
+        gameListener.onTileAdded(board.addRandomTile())
     }
 
     fun moveLeft() {
@@ -35,14 +35,14 @@ class Game(private val onTileAdd: (Tile) -> Unit, private val onTileMoved: (Tile
     private fun moveAndAddTile(delta: Position.Delta, traversals: Map<String, List<Int>>) {
         board.resetMergeStatus()
         val isMoved = move(delta, traversals)
+        if (isMoved) {
+            gameListener.onTileAdded(board.addRandomTile())
+        }
         if (isWon()) {
-            // winning condition
+            return gameListener.onWin()
         }
         if (isGameOver()) {
-            // quit
-        }
-        if (isMoved) {
-            onTileAdd(board.addRandomTile())
+            return gameListener.onGameOver()
         }
     }
 
@@ -67,12 +67,12 @@ class Game(private val onTileAdd: (Tile) -> Unit, private val onTileMoved: (Tile
 
                 if (nextTileToMovablePosition != null && nextTileToMovablePosition.hasEqualValue(currentTile) && !nextTileToMovablePosition.isMerged()) {
                     isMoved = mergeTiles(currentTile, nextTileToMovablePosition) || isMoved
-                    onTilesMerged(currentTile, nextTileToMovablePosition)
+                    gameListener.onTilesMerged(currentTile, nextTileToMovablePosition)
                 } else {
                     val movableTile = board.getTile(movablePosition)
                     movableTile?.let {
                         isMoved = moveTile(currentTile, it) || isMoved
-                        onTileMoved(currentTile, it)
+                        gameListener.onTileMoved(currentTile, it)
                     }
                 }
             }

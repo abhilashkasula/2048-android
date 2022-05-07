@@ -4,18 +4,27 @@ import android.animation.ObjectAnimator
 import android.graphics.Path
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.transition.Visibility
 import android.view.KeyEvent
 import android.view.MotionEvent
+import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.example.twentyfourtyeight.core.Game
 import com.example.twentyfourtyeight.core.Tile
 import androidx.core.view.GestureDetectorCompat
+import com.example.twentyfourtyeight.core.GameListener
+import com.example.twentyfourtyeight.core.Position
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), GameListener {
+    private lateinit var playAgainButton: Button
+    private lateinit var message: TextView
+    private lateinit var gameOverDialogue: LinearLayout
     private lateinit var gestureDetectorCompat: GestureDetectorCompat
     private lateinit var game: Game
 
@@ -23,12 +32,29 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        game = Game(::onTileAdded, ::onTileMoved, ::onTilesMerged)
+        gameOverDialogue = findViewById(R.id.gameOver)
+        message = findViewById(R.id.message)
+        playAgainButton = findViewById(R.id.playAgain)
+        resetGame()
         val touchListener = TouchListener(this)
         gestureDetectorCompat = GestureDetectorCompat(this, touchListener)
+
+        playAgainButton.setOnClickListener {
+            resetGame()
+            gameOverDialogue.visibility = View.GONE
+        }
     }
 
-    private fun onTilesMerged(from: Tile, to: Tile) {
+    private fun resetGame() {
+        for (x in 0..3) {
+            for (y in 0..3) {
+                changeTileUI(Tile(Position(x, y)), null)
+            }
+        }
+        game = Game(this)
+    }
+
+    override fun onTilesMerged(from: Tile, to: Tile) {
         changeTileUI(from, null)
         changeTileUI(to, AnimationUtils.loadAnimation(this, R.anim.merge))
     }
@@ -43,11 +69,21 @@ class MainActivity : AppCompatActivity() {
         animation?.let { card.startAnimation(animation) }
     }
 
-    private fun onTileAdded(tile: Tile) {
+    override fun onTileAdded(tile: Tile) {
         changeTileUI(tile, AnimationUtils.loadAnimation(this, R.anim.spawn))
     }
 
-    private fun onTileMoved(from: Tile, to: Tile) {
+    override fun onGameOver() {
+        message.text = "Game Over!"
+        gameOverDialogue.visibility = View.VISIBLE
+    }
+
+    override fun onWin() {
+        message.text = "You Won 🎉"
+        gameOverDialogue.visibility = View.VISIBLE
+    }
+
+     override fun onTileMoved(from: Tile, to: Tile) {
         changeTileUI(from, null)
         changeTileUI(to, null)
     }

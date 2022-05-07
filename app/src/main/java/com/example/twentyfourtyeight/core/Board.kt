@@ -28,7 +28,7 @@ class Board {
 
     fun addRandomTile(): Tile {
         val available = flattenedTiles.filter { it.hasValue(0) }
-        val tile = available[Random.nextInt(0, available.size - 1)]
+        val tile = available[Random.nextInt(0, available.size)]
         tile.updateValue(2)
         return tile
     }
