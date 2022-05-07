@@ -1,11 +1,11 @@
 package com.example.twentyfourtyeight.core
 
-class Game(private val onTileChange: (Tile) -> Unit) {
+class Game(private val onTileAdd: (Tile) -> Unit, private val onTileMoved: (Tile, Tile) -> Unit, private val onTilesMerged: (Tile, Tile) -> Unit) {
     private val board: Board = Board()
 
     init {
-        onTileChange(board.addRandomTile())
-        onTileChange(board.addRandomTile())
+        onTileAdd(board.addRandomTile())
+        onTileAdd(board.addRandomTile())
     }
 
     fun moveLeft() {
@@ -42,7 +42,7 @@ class Game(private val onTileChange: (Tile) -> Unit) {
             // quit
         }
         if (isMoved) {
-            onTileChange(board.addRandomTile())
+            onTileAdd(board.addRandomTile())
         }
     }
 
@@ -67,14 +67,12 @@ class Game(private val onTileChange: (Tile) -> Unit) {
 
                 if (nextTileToMovablePosition != null && nextTileToMovablePosition.hasEqualValue(currentTile) && !nextTileToMovablePosition.isMerged()) {
                     isMoved = mergeTiles(currentTile, nextTileToMovablePosition) || isMoved
-                    onTileChange(nextTileToMovablePosition)
-                    onTileChange(currentTile)
+                    onTileMoved(currentTile, nextTileToMovablePosition)
                 } else {
                     val movableTile = board.getTile(movablePosition)
                     movableTile?.let {
                         isMoved = moveTile(currentTile, it) || isMoved
-                        onTileChange(currentTile)
-                        onTileChange(it)
+                        onTileMoved(currentTile, it)
                     }
                 }
             }
